@@ -1,13 +1,13 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration file="G:\My Drive\_Teaching (Google Drive)\_Fall AY2026\EW417 [AY26]\Labs\iRobot BLE Files\iRobotCreate3BLE.prj" location="G:\My Drive\_Teaching (Google Drive)\_Fall AY2026\EW417 [AY26]\Labs\iRobot BLE Files" name="iRobotCreate3BLE" target="target.toolbox" target-name="Package Toolbox">
+  <configuration file="C:\Users\Erick Rodriguez\OneDrive\Documents\GitHub\iRobotCreate3BLE\iRobotCreate3BLE.prj" location="C:\Users\Erick Rodriguez\OneDrive\Documents\GitHub\iRobotCreate3BLE" name="iRobotCreate3BLE" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>iRobotCreate3BLE</param.appname>
     <param.authnamewatermark>E.J. Rodriguez-Seda</param.authnamewatermark>
     <param.email />
     <param.company>US Naval Academy</param.company>
     <param.summary>MATLAB function to interact with iRobot Create using BLE</param.summary>
     <param.description>MATLAB function to connect, control, and get data from iRobot Create using Bluetooth.</param.description>
-    <param.screenshot />
-    <param.version>1.0</param.version>
+    <param.screenshot>${PROJECT_ROOT}\irobot_BLE.png</param.screenshot>
+    <param.version>1.1</param.version>
     <param.output>${PROJECT_ROOT}\iRobotCreate3BLE.mltbx</param.output>
     <param.products.name />
     <param.products.id />
@@ -43,8 +43,6 @@
     <param.additional.sw.linux.url />
     <unset>
       <param.email />
-      <param.screenshot />
-      <param.version />
       <param.output />
       <param.products.name />
       <param.products.id />
@@ -83,7 +81,6 @@
     </fileset.rootdir>
     <fileset.rootfiles>
       <file>${PROJECT_ROOT}\.git</file>
-      <file>${PROJECT_ROOT}\desktop.ini</file>
       <file>${PROJECT_ROOT}\irobot_BLE.png</file>
       <file>${PROJECT_ROOT}\iRobotBeep.m</file>
       <file>${PROJECT_ROOT}\iRobotConnect.m</file>
@@ -92,6 +89,7 @@
       <file>${PROJECT_ROOT}\iRobotPose.m</file>
       <file>${PROJECT_ROOT}\iRobotResetPoseTo.m</file>
       <file>${PROJECT_ROOT}\iRobotResetPoseToZero.m</file>
+      <file>${PROJECT_ROOT}\iRobotSetVelCmd.m</file>
       <file>${PROJECT_ROOT}\iRobotStop.m</file>
       <file>${PROJECT_ROOT}\iRobotUndock.m</file>
       <file>${PROJECT_ROOT}\iRobotVelCmd.m</file>
@@ -100,7 +98,7 @@
     <fileset.depfun.excluded />
     <fileset.package />
     <build-deliverables>
-      <file location="${PROJECT_ROOT}" name="iRobotCreate3BLE.mltbx" optional="false">G:\My Drive\_Teaching (Google Drive)\_Fall AY2026\EW417 [AY26]\Labs\iRobot BLE Files\iRobotCreate3BLE.mltbx</file>
+      <file location="${PROJECT_ROOT}" name="iRobotCreate3BLE.mltbx" optional="false">C:\Users\Erick Rodriguez\OneDrive\Documents\GitHub\iRobotCreate3BLE\iRobotCreate3BLE.mltbx</file>
     </build-deliverables>
     <workflow />
     <matlab>

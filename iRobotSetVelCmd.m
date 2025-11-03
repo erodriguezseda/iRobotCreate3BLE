@@ -1,17 +1,21 @@
-function iRobotVelCmd(u,vL,vR)
-%iRobotVelCmd(u,vL,vR) Sends wheels' velocity commands to iRobot Create
+function iRobotSetVelCmd(u,v,w)
+%iRobotSetVelCmd(u,v,w) Sends forward and angular velocity command to 
+% iRobot Create
 % Inputs:
 %   u  = BLE object
-%   vL = Velocity command in m/s for left wheel (less than 0.306 m/s)
-%   vR = Velocity command in m/s for right wheel (less than 3.306 m/s)
+%   v  = Forward velocity command in m/s (less than 0.306 m/s)
+%   w  = Turning rate (angular velocity) command in rad/s 
 %
 %                           Author: Prof. E. Rodriguez-Seda
-%                           Date:   October 28, 2025
+%                           Date:   October 31, 2025
 
 if u.velMax > 306 || u.velMax < 0
     u.velMax = 306;
     disp('Overide maximum velocity to 0.306 m/s.')
 end
+
+vL = v - 0.235*w/2;
+vR = v + 0.235*w/2;
 
 vL = round(1000*vL);
 vR = round(1000*vR);
