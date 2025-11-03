@@ -1,10 +1,10 @@
 function u = iRobotResetPoseTo(u,new_pose)
-%iRobotResetPose(u) Resets the position (x,y) and orientation of iRobot
-%Create. The position in x and y is set to 0 while the orientation (yaw) is
-%set to 90 degrees. 
+%iRobotResetPoseTo(u, new_pose) Resets the position (x,y) and orientation 
+% of iRobot Create to the new_pose in meters and radians. 
 %
 % Inputs:
-%   u    = BLE object
+%   u        = BLE object
+%   new_pose = 1x3 
 %
 %                           Author: Prof. E. Rodriguez-Seda
 %                           Date:   November 30, 2022

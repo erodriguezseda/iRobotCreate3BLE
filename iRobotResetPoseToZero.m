@@ -1,5 +1,5 @@
 function u = iRobotResetPoseToZero(u)
-%iRobotResetPose(u) Resets the position (x,y) and orientation of iRobot
+%iRobotResetPoseToZero (u) Resets the position (x,y) and orientation of iRobot
 %Create. The position in x and y is set to 0 while the orientation (yaw) is
 %set to 90 degrees. 
 %
