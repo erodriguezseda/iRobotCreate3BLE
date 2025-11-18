@@ -1,48 +1,56 @@
-function iRobotBeep(u,freq,duration)
-%iRobotBeep(u,freq,duration) Sends a sound beep command to iRobot Create
-% Inputs:
-%   u        = BLE object
-%   freq     = Frequency of sound in Hz
-%   duration = Duration of sound in seconds
+function iRobotBeep(u, freq, duration)
+%IROBOTBEEP Sends a beep command to an iRobot Create via BLE.
 %
-%                           Author: Prof. E. Rodriguez-Seda
-%                           Date:   October 28, 2025
-if freq > 2000
-    freq = 2000;
-elseif freq < 0
-    freq = 0;
-end
+%   IROBOTBEEP(U, FREQ, DURATION) sends a sound command to the connected
+%   iRobot Create using BLE communication. The frequency and duration are
+%   automatically constrained to valid limits.
+%
+%   Inputs:
+%       u        - Structure returned by iRobotConnect (contains BLE and CRC info)
+%       freq     - Frequency of the beep in Hz (0–2000)
+%       duration - Duration of the beep in seconds (0–10)
+%
+%   Example:
+%       iRobotBeep(u, 880, 0.5)
+%
+%   Author: Prof. E. Rodriguez-Seda
+%   Revised: November 5, 2025
 
-if duration > 10
-    duration = 10;
-elseif duration < 0
-    duration = 0;
-end
-duration_ms = duration*1000;
-
-decMessage = zeros(1,20);
-decMessage(1) = 5;       %Device
-decMessage(2) = 0;       %Command
-decMessage(3) = u.packetID;
-decMessage(4:7) = fliplr(double(typecast(int32(freq), 'uint8')));
-decMessage(8:9) = fliplr(double(typecast(int16(duration_ms), 'uint8')));
-
-tempString = dec2bin(decMessage(1:19),8);
-inputMsg = zeros(19*8,1);
-for i = 1:19
-    for j = 1:8
-        inputMsg(8*(i-1)+j) = str2double(tempString(i,j));
+    % --- Validate BLE connection ---
+    if ~isfield(u, "dataTx") || isempty(u.dataTx)
+        error("Invalid BLE object. Please connect using iRobotConnect first.");
     end
-end
 
-codeword = u.crc8(inputMsg);
-checksum = codeword(end-7:end)';
-decMessage(20) = bin2dec(num2str(checksum));
-write(u.dataTx,decMessage)
-packetID = u.packetID + 1; 
-if packetID > 255
-    packetID = 0;
-end
-u.packetID = packetID;
+    % --- Sanitize input parameters ---
+    freq = max(0, min(freq, 2000));           % Limit to 0–2000 Hz
+    duration = max(0, min(duration, 10));     % Limit to 0–10 s
+    duration_ms =  duration * 1000;           % Convert to milliseconds
 
+    % --- Build command packet ---
+    decMessage = zeros(1, 20);
+    decMessage(1) = 5;                        % Device ID
+    decMessage(2) = 0;                        % Command ID
+    decMessage(3) = u.packetID;               % Packet ID
+
+    % Frequency (4 bytes, int32, little-endian reversed)
+    decMessage(4:7) = fliplr(double(typecast(int32(freq), 'uint8')));
+    % Duration (2 bytes, int16, little-endian reversed)
+    decMessage(8:9) = fliplr(double(typecast(int16(duration_ms), 'uint8')));
+    % --- Compute CRC8 checksum ---
+    bits = reshape(double(dec2bin(decMessage(1:19), 8).') - '0', [], 1);
+    codeword = u.crc8(bits);
+    checksumBits = codeword(end-7:end).';
+    decMessage(20) = bin2dec(num2str(checksumBits));
+
+    % --- Transmit command ---
+    try
+        write(u.dataTx, decMessage);
+        %fprintf("Beep command sent: %.0f Hz for %.2f s\n", freq, duration);
+    catch ME
+        warning("Failed to send beep command: %s", ME.message);
+        return;
+    end
+
+    % --- Update packet ID (wraps around at 255) ---
+    u.packetID = mod(u.packetID + 1, 256);
 end
